@@ -40,6 +40,7 @@ scheduleProjeto() {
   && [ "$CAMINHO_PROJETO_ESPELHADO$(ls $CAMINHO_PROJETO_ESPELHADO)/" -nt "$CAMINHO_PROJETO_VM$(ls $CAMINHO_PROJETO_VM)/" ] \
   || [ $(ls $CAMINHO_PROJETO_ESPELHADO | wc -l) -gt 0 ] && [ -e "$CAMINHO_DOCKERFILE" ] && [ $(ls $CAMINHO_PROJETO_VM | wc -l) -eq 0 ];then
     echo "########## Projeto encontrado com sucesso ##########"
+    rm -rf $CAMINHO_PROJETO_VM
     removerDocker
     if [ $? -eq 0 ];then
       echo "########## Container e imagem removida com sucesso ##########"

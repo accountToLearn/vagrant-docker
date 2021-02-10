@@ -1,0 +1,7 @@
+my_password.txt
+my_email.txt
+/.ssh
+/.vagrant
+/.git
+/logs
+/volumes

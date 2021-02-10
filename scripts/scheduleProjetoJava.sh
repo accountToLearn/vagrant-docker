@@ -36,9 +36,9 @@ scheduleProjeto() {
   echo "########## Verificando a existencia do projeto ##########"
   echo "Caminho do local --> $(ls $CAMINHO_PROJETO_ESPELHADO | wc -l) --> $(ls -l $CAMINHO_PROJETO_ESPELHADO)"
   echo "Caminho da VM --> $(ls $CAMINHO_PROJETO_VM | wc -l) --> $(ls -l $CAMINHO_PROJETO_VM)"
-  if [ $(ls $CAMINHO_PROJETO_ESPELHADO | wc -l) -gt 0 ] && [ $(ls $CAMINHO_PROJETO_VM | wc -l) -gt 0 ] && [ -e "$CAMINHO_DOCKERFILE" ] \
-  && [ "$CAMINHO_PROJETO_ESPELHADO$(ls $CAMINHO_PROJETO_ESPELHADO)/" -nt "$CAMINHO_PROJETO_VM$(ls $CAMINHO_PROJETO_VM)/" ] \
-  || [ $(ls $CAMINHO_PROJETO_ESPELHADO | wc -l) -gt 0 ] && [ -e "$CAMINHO_DOCKERFILE" ] && [ $(ls $CAMINHO_PROJETO_VM | wc -l) -eq 0 ];then
+  if ([ $(ls $CAMINHO_PROJETO_ESPELHADO | wc -l) -gt 0 ] && [ $(ls $CAMINHO_PROJETO_VM | wc -l) -gt 0 ] && [ -e "$CAMINHO_DOCKERFILE" ] \
+  && [ "$CAMINHO_PROJETO_ESPELHADO$(ls $CAMINHO_PROJETO_ESPELHADO)/" -nt "$CAMINHO_PROJETO_VM$(ls $CAMINHO_PROJETO_VM)/" ]) \
+  || ([ $(ls $CAMINHO_PROJETO_ESPELHADO | wc -l) -gt 0 ] && [ -e "$CAMINHO_DOCKERFILE" ] && [ $(ls $CAMINHO_PROJETO_VM | wc -l) -eq 0 ]);then
     echo "########## Projeto encontrado com sucesso ##########"
     removerDocker
     if [ $? -eq 0 ];then

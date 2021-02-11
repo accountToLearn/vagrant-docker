@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
       d.build_image "/vagrant/",
         args: "-t accounttolearn/jenkins-and-maven"
       d.run "accounttolearn/jenkins-and-maven",
-        args: "--name jenkins -v '/vagrant/volumes:/var/jenkins/volumes'"
+        args: "--network=host --name jenkins -v '/vagrant/volumes:/var/jenkins/volumes'"
     end
     docker_config.vm.provision "shell", inline: "apt-get update && apt-get install -y dos2unix"
     docker_config.vm.provision "shell", inline: "dos2unix /vagrant/scripts/scheduleProjetoJava.sh && \

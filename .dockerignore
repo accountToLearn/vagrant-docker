@@ -1,5 +1,3 @@
 *
-!/.ssh
-!/logs
 !my_email.txt
 !/scripts/configurarNoJenkinsAposGeracaoDoPacote.sh

@@ -1,5 +1,7 @@
 #!/bin/#!/usr/bin/env bash
 CAMINHO_PROJETO_ESPELHADO=/vagrant/volumes/projetos/
+CAMINHO_LOG_ERRO=/vagrant/volumes/logs/erro/
+CAMINHO_LOG_WARNING=/vagrant/volumes/logs/warning/
 CAMINHO_PROJETO_VM=/home/vagrant/projetos/
 CAMINHO_DOCKERFILE=$CAMINHO_PROJETO_ESPELHADO$(ls $CAMINHO_PROJETO_ESPELHADO)/Dockerfile
 removerDocker() {
@@ -22,10 +24,10 @@ limparCrontab() {
 }
 adicionarMonitoriaNoCrontab() {
   echo "########## Schedule do projeto ##########"
-  (crontab -u vagrant -l; echo "* * * * * sh /vagrant/scripts/scheduleProjetoJava.sh > /vagrant/logs/timeLineScheduleProjeto.log 2>&1") \
+  (crontab -u vagrant -l; echo "* * * * * sh /vagrant/scripts/scheduleProjetoJava.sh > $CAMINHO_LOG_WARNING'scheduleProjetoJava.log' 2>&1") \
   | crontab -u vagrant -
 }
-scheduleProjeto() {
+scheduleProjetoJava() {
   echo "############################## $(date) ##############################"
   limparCrontab
   if [ $? -eq 0 ];then
@@ -66,7 +68,7 @@ scheduleProjeto() {
     echo "########## Erro ao agendar monitoria ##########"
   fi
 }
-scheduleProjeto 2>/vagrant/logs/erroScheduleProjetoJava.log
+scheduleProjetoJava 2>>$CAMINHO_LOG_ERRO'scheduleProjetoJava.log'
 if [ $? -ne 0 ];then
   adicionarMonitoriaNoCrontab
   echo "########## Erro do schedule projeto ##########"

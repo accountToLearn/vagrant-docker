@@ -1,6 +1,7 @@
 #!/bin/#!/usr/bin/env bash
 CAMINHO_PROJETOS=/var/jenkins/volumes/projetos/
 CAMINHO_WORKSPACE=/var/jenkins_home/workspace/
+CAMINHO_LOGS=/var/jenkins/volumes/logs/erro/
 removerWar(){
 	if [ $(ls $CAMINHO_PROJETOS | wc -l) -gt 0 ]
 	then
@@ -14,15 +15,15 @@ removerWar(){
 		fi
 	fi
 }
-removerWar 2>>/var/jenkins/logs/erro/configurarNoJenkinsAposGeracaoDoPacote-removendoWar.log
+removerWar 2>>${CAMINHO_LOGS}configurarNoJenkinsAposGeracaoDoPacote-removendoWar.log
 copiarWar(){
 	echo "########## Copiando WAR ##########"
 	cp -r $CAMINHO_WORKSPACE$(ls $CAMINHO_WORKSPACE) $CAMINHO_PROJETOS
+	if [ $? -eq 0 ]
+	then
+		echo "########## WAR copiado com sucesso ##########"
+	else
+		echo "########## Erro ao copiar war ##########"
+	fi
 }
-copiarWar 2>>/var/jenkins/logs/erro/configurarNoJenkinsAposGeracaoDoPacote-copiandoWar.log
-if [ $? -eq 0 ]
-then
-	echo "########## WAR copiado com sucesso ##########"
-else
-	echo "########## Erro ao copiar war ##########"
-fi
+copiarWar 2>>${CAMINHO_LOGS}configurarNoJenkinsAposGeracaoDoPacote-copiandoWar.log

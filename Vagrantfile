@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
       d.run "accounttolearn/jenkins-and-maven",
         args: "--network=host --name jenkins -v '/vagrant/volumes:/var/jenkins/volumes'"
     end
-    docker_config.vm.provision "shell", inline: "apt-get update && apt-get install -y dos2unix"
+    docker_config.vm.provision "shell", inline: "apt-get update && apt-get install -y dos2unix docker-compose"
     docker_config.vm.provision "shell", inline: "dos2unix /vagrant/scripts/scheduleProjetoJava.sh && \
                                                     sh /vagrant/scripts/scheduleProjetoJava.sh"
     docker_config.vm.provider "virtualbox" do |vb|

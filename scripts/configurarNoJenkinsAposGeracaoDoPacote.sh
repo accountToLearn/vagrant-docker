@@ -14,12 +14,12 @@ removerWar(){
 		fi
 	fi
 }
-removerWar 2>/var/jenkins/logs/removendoWar.log
+removerWar 2>>/var/jenkins/logs/erro/configurarNoJenkinsAposGeracaoDoPacote-removendoWar.log
 copiarWar(){
 	echo "########## Copiando WAR ##########"
 	cp -r $CAMINHO_WORKSPACE$(ls $CAMINHO_WORKSPACE) $CAMINHO_PROJETOS
 }
-copiarWar 2>/var/jenkins/logs/copiandoWar.log
+copiarWar 2>>/var/jenkins/logs/erro/configurarNoJenkinsAposGeracaoDoPacote-copiandoWar.log
 if [ $? -eq 0 ]
 then
 	echo "########## WAR copiado com sucesso ##########"

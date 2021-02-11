@@ -24,7 +24,7 @@ limparCrontab() {
 }
 adicionarMonitoriaNoCrontab() {
   echo "########## Schedule do projeto ##########"
-  (crontab -u vagrant -l; echo "* * * * * sh /vagrant/scripts/scheduleProjetoJava.sh > $CAMINHO_LOG_WARNING'scheduleProjetoJava.log' 2>&1") \
+  (crontab -u vagrant -l; echo "* * * * * sh /vagrant/scripts/scheduleProjetoJava.sh > ${CAMINHO_LOG_WARNING}scheduleProjetoJava.log 2>&1") \
   | crontab -u vagrant -
 }
 scheduleProjetoJava() {
@@ -68,7 +68,7 @@ scheduleProjetoJava() {
     echo "########## Erro ao agendar monitoria ##########"
   fi
 }
-scheduleProjetoJava 2>>$CAMINHO_LOG_ERRO'scheduleProjetoJava.log'
+scheduleProjetoJava 2>>${CAMINHO_LOG_ERRO}scheduleProjetoJava.log
 if [ $? -ne 0 ];then
   adicionarMonitoriaNoCrontab
   echo "########## Erro do schedule projeto ##########"

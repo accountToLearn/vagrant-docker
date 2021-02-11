@@ -4,14 +4,14 @@ CAMINHO_PROJETO_VM=/home/vagrant/projetos/
 CAMINHO_DOCKERFILE=$CAMINHO_PROJETO_ESPELHADO$(ls $CAMINHO_PROJETO_ESPELHADO)/Dockerfile
 removerDocker() {
   echo "########## Removendo container e imagem docker ##########"
-  docker rm -f java
+  cd ~/projetos/$(ls $CAMINHO_PROJETO_VM)/; docker-compose down
   docker rmi java
 }
 criarExecutarImagemDocker() {
   echo "########## Executando docker build e docker run ##########"
   inicio_tempo=$(date +%s)
-  docker build -t java ~/projetos/$(ls $CAMINHO_PROJETO_VM)/
-  docker run -d -t --name java --restart=always -p 9000:9000 -v '/vagrant/volumes:/var/www/volumes' java
+  cd ~/projetos/$(ls $CAMINHO_PROJETO_VM)/; docker-compose build
+  docker-compose up -d
   tempo_gasto=$(($(date +%s) - $inicio_tempo))
   final_tempo=`echo "scale=2; $tempo_gasto / 60" | bc -l`
   echo "########## Tempo gasto para criar imagem e container foi: $final_tempo minutos ##########"
@@ -40,13 +40,14 @@ scheduleProjeto() {
   && [ "$CAMINHO_PROJETO_ESPELHADO$(ls $CAMINHO_PROJETO_ESPELHADO)/" -nt "$CAMINHO_PROJETO_VM$(ls $CAMINHO_PROJETO_VM)/" ]) \
   || ([ $(ls $CAMINHO_PROJETO_ESPELHADO | wc -l) -gt 0 ] && [ -e "$CAMINHO_DOCKERFILE" ] && [ $(ls $CAMINHO_PROJETO_VM | wc -l) -eq 0 ]);then
     echo "########## Projeto encontrado com sucesso ##########"
-    rm -rf $CAMINHO_PROJETO_VM
     removerDocker
     if [ $? -eq 0 ];then
       echo "########## Container e imagem removida com sucesso ##########"
     else
       echo "########## Erro ao remover container e imagem ##########"
     fi
+    echo "########## Removendo projeto da VM ##########"
+    rm -rf $CAMINHO_PROJETO_VM
     echo "########## Copiando projeto para VM ##########"
     cp -r $CAMINHO_PROJETO_ESPELHADO ~/
     criarExecutarImagemDocker

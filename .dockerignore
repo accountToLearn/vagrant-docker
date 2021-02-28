@@ -1,4 +1,5 @@
 *
 !/.ssh
-!my_email.txt
+!README.md
 !/scripts/configurarNoJenkinsAposGeracaoDoPacote.sh
+!/scripts/configurarGit.sh

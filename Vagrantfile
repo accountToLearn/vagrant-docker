@@ -8,9 +8,9 @@ Vagrant.configure("2") do |config|
     docker_config.vm.network "private_network", ip: "192.168.2.2"
     docker_config.vm.provision "docker" do |d|
       d.build_image "/vagrant/",
-        args: "-t accounttolearn/jenkins-and-maven"
+        args: "--build-arg " + ENV['GIT_NOME'] + " --build-arg " + ENV['GIT_EMAIL'] + " -t accounttolearn/jenkins-and-maven"
       d.run "accounttolearn/jenkins-and-maven",
-        args: "--network=host --name jenkins -v '/vagrant/volumes:/var/jenkins/volumes'"
+        args: "--network=host -it --name jenkins -v '/vagrant/volumes:/var/jenkins/volumes'"
     end
     docker_config.vm.provision "shell", inline: "apt-get update && apt-get install -y dos2unix docker-compose"
     docker_config.vm.provision "shell", inline: "dos2unix /vagrant/scripts/scheduleProjetoJava.sh && \
@@ -20,6 +20,6 @@ Vagrant.configure("2") do |config|
       vb.cpus = 2
       vb.name = "integracao_docker"
     end
-    #docker_config.vm.provision "shell", inline: "sh /vagrant/scripts/dockerPush.sh"
+    docker_config.vm.provision "shell", inline: "dos2unix /vagrant/scripts/dockerPush.sh && sh /vagrant/scripts/dockerPush.sh"
   end
 end

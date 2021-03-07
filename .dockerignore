@@ -3,3 +3,4 @@
 !README.md
 !/scripts/configurarNoJenkinsAposGeracaoDoPacote.sh
 !/scripts/configurarGit.sh
+!/scripts/dockerPush.sh

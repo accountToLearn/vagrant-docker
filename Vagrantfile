@@ -20,6 +20,7 @@ Vagrant.configure("2") do |config|
       vb.cpus = 2
       vb.name = "integracao_docker"
     end
-    docker_config.vm.provision "shell", inline: "dos2unix /vagrant/scripts/dockerPush.sh && sh /vagrant/scripts/dockerPush.sh"
+    docker_config.vm.provision "shell", inline: "dos2unix /vagrant/scripts/dockerPush.sh && \
+    sh /vagrant/scripts/dockerPush.sh /vagrant/ accounttolearn/jenkins-and-maven"
   end
 end
